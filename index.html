@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Lebryere Slider</title>
+	<link rel="stylesheet" href="./assets/css/style.css">
+
+</head>
+<body>
+   <section>
+      <div class='controls'>
+         <button class='toggle'><span></span></button>
+         <button class='toggle' data-toggle='next'><span></span></button>
+      </div>
+      <ul class='leb_carousel set_move'>
+         <li class='leb_carousel_item'>
+            <img src="./assets/images/1.jpg" alt="">
+         </li>
+         <li class='leb_carousel_item'>
+            <img src="./assets/images/2.jpg" alt="">
+         </li>
+         <li class='leb_carousel_item'>
+            <img src="./assets/images/3.jpg" alt="">
+         </li>
+         <li class='leb_carousel_item'>
+            <img src="./assets/images/4.jpg" alt="">
+         </li>
+         <li class='leb_carousel_item'>
+            <img src="./assets/images/5.jpg" alt="">
+         </li>
+         <li class='leb_carousel_item set_forward'>
+            <img src="./assets/images/6.jpg" alt="">
+         </li>
+      </ul>
+   </section>
+
+   <script>
+      let leb_carousel, next, prev, items;
+      leb_carousel = document.querySelector('.leb_carousel');
+      items = document.querySelectorAll('.leb_carousel_item');
+
+      next = (el) => {
+         // Check if there is a next element
+         if (el.nextElementSibling !== null) {
+            return el.nextElementSibling;
+         } else {
+            return items[0]; // If not, select the first element
+         }
+      };
+
+      prev = (el) => {
+         // Check if there is a previous element
+         if (el.previousElementSibling !== null) {
+            return el.previousElementSibling;
+         } else {
+            return items[items.length - 1]; // If not, select the last element
+         }
+      };
+
+      // Add event listener to 'toggle' elements
+      document.querySelectorAll('.toggle').forEach((item) => {
+         item.addEventListener('click', (e) => {
+            let el, new_item;
+            el = document.querySelector('.set_forward');
+            el.classList.remove('set_forward'); // Remove previous 'set_forward' class
+
+            // Use ternary operator to select the new element based on 'data-toggle' attribute
+            new_item = (item.getAttribute('data-toggle') === 'next') ? next(el) : prev(el);
+
+            // Toggle the 'moves_back' class on the 'leb_carousel' element based on the ternary operator
+            leb_carousel.classList.toggle('moves_back', item.getAttribute('data-toggle') !== 'next');
+
+            // Add the 'set_forward' class and set the 'order' property to 1 for the new element
+            new_item.classList.add('set_forward');
+            new_item.style.order = 1;
+
+            // Set the 'order' property for the elements in the correct order
+            for (let i = 2; i <= items.length; i++) {
+               new_item = next(new_item);
+               new_item.style.order = i;
+            }
+
+            // Remove and add the 'set_move' class to the 'leb_carousel' element with a delay
+            leb_carousel.classList.remove('set_move');
+            setTimeout(() => {
+               leb_carousel.classList.add('set_move');
+            }, 10);
+         });
+
+         // Add aria-label attribute to prev and next buttons
+          if (item.getAttribute('data-toggle') === 'next') {
+            item.setAttribute('aria-label', 'Next');
+         } else {
+            item.setAttribute('aria-label', 'Previous');
+         }
+      });      
+
+      // Keyboard navigation
+      document.addEventListener('keydown', function (ev) {
+         var keyCode = ev.keyCode || ev.which;
+         switch (keyCode) {
+            case 37:
+               nextSlide(); // Call the appropriate function to navigate to the next slide
+               break;
+            case 39:
+               prevSlide(); // Call the appropriate function to navigate to the previous slide
+               break;
+         }
+      });
+
+      // Define a function for navigating to the next slide
+      function nextSlide() {
+         // Get the currently displayed slide with the 'set_forward' class
+         let currentSlide = document.querySelector('.set_forward');
+
+         // Get the next slide using the 'next' function
+         let newSlide = next(currentSlide);
+
+         // Remove classes that control animation
+         leb_carousel.classList.remove('moves_back');
+         leb_carousel.classList.remove('set_move');
+
+         // Remove 'set_forward' class from the current slide
+         currentSlide.classList.remove('set_forward');
+
+         // Add 'set_forward' class to the new slide and set its order to 1
+         newSlide.classList.add('set_forward');
+         newSlide.style.order = 1;
+
+         // Reorder the rest of the slides
+         for (let i = 2; i <= items.length; i++) {
+            newSlide = next(newSlide);
+            newSlide.style.order = i;
+         }
+
+         // Add the 'set_move' class with a slight delay to trigger the animation
+         setTimeout(() => {
+            leb_carousel.classList.add('set_move');
+         }, 10);
+      }
+
+      // Define a function for navigating to the previous slide
+      function prevSlide() {
+          // Get the currently displayed slide with the 'set_forward' class
+         let currentSlide = document.querySelector('.set_forward');
+         // Get the next slide using the 'prev' function
+         let newSlide = prev(currentSlide);
+
+         // Add classes that control animation
+         leb_carousel.classList.add('moves_back');
+          // Remove classes that control animation
+         leb_carousel.classList.remove('set_move');
+
+         // Remove 'set_forward' class from the current slide and set its order to 1
+         currentSlide.classList.remove('set_forward');
+         newSlide.classList.add('set_forward');
+         newSlide.style.order = 1;
+
+         // Reorder the rest of the slides
+         for (let i = 2; i <= items.length; i++) {
+            newSlide = next(newSlide);
+            newSlide.style.order = i;
+         }
+          // Add the 'set_move' class with a slight delay to trigger the animation
+         setTimeout(() => {
+            leb_carousel.classList.add('set_move');
+         }, 10);
+      }
+   </script>
+</body>
+</html>
