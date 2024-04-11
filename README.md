@@ -20,19 +20,7 @@
 
 ### Basic Usage
 
-Thank you for the inspiration Nathan Taylor-nak.
-
-This code implements a simple slideshow that allows us to navigate forward and backward between the images.
-
-For the DOMContentLoaded event, we create an event handler that runs the code when all HTML content has loaded. This ensures that the JavaScript code only runs when all HTML content is available.
-
-Then we calculate all the slides, and create an indicator for each within the element with the class slider__indicators.
-
-We use the setTimeout function to add a CSS class (slider__wrap--hacked) to the slider__wrap element after 1 second. This is a timed operation that allows, for example, animations or other modifications to be executed after the page has finished loading.
-
-The goToSlide function sets the active slide determined by the number provided as an argument. It adds the slider__slide--active class to the active slide, and removes this class from all other slides.
-
-The nextButtons variable selects all buttons that we can click to navigate to the next slide. We add event handlers to these buttons so that each click advances the active slide.
+This project implements a simple and user-friendly image carousel for websites. The JavaScript-based carousel allows users to navigate between images easily through clicks or keyboard input. It handles carousel control buttons and keyboard navigation to ensure users can browse through images conveniently. The project includes a clean and well-structured HTML template that is easily customizable and integratable into various web pages.
 -
 
 ### Variables
