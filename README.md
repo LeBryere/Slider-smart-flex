@@ -22,7 +22,7 @@
 
 This project implements a simple and user-friendly image carousel for websites.
 The JavaScript-based carousel allows users to navigate between images easily through clicks or keyboard input. It handles carousel control buttons and keyboard navigation to ensure users can browse through images conveniently. The project includes a clean and well-structured HTML template that is easily customizable and integratable into various web pages.
--
+
 
 ### Variables
 ```css
